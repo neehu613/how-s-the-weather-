@@ -1,6 +1,6 @@
-import urllib.request, re, os, time
+import re, os, time
 from bs4 import BeautifulSoup
-
+from urllib.request import urlopen
 def printline():
 	lines = '-'*99
 	print (lines)
@@ -13,9 +13,9 @@ city = re.sub(' ', '+', city)
 printline()
 print ("\nSEARCH RESULTS\n")
 url = 'https://www.bbc.com/weather/search?s='+city 
-m = urllib.request.Request(url)
-html = urllib.request.urlopen(m)
-soup = BeautifulSoup(html, "html.parser")
+
+html = urlopen(url)
+soup = BeautifulSoup(html, 'html.parser')
 
 
 allLinks = soup.find_all('a', {'class' : 'location-search-results__result__link'})
@@ -46,8 +46,8 @@ choice =  int(input("\n\nSelect the place from the above list: "))
 print ("Gathering information, please be patient....")
 time.sleep(1)
 newUrl = newLinks[choice-1]
-m = urllib.request.Request(newUrl)
-html = urllib.request.urlopen(m)
+
+html = urlopen(newUrl)
 soup = BeautifulSoup(html, "html.parser")
 
 weatherToday = soup.find('div', {'class': 'wr-day__details__weather-type-description'})
@@ -86,14 +86,14 @@ for i in date:
 
 today = str(today)+'   '
 datesList.append(today)
-
+'''
 date1 = soup.find('span', {'class': 'wr-date__short'})
 for i in date1:
 	tomorrow = date1.string
 
 tomorrow = str(tomorrow)
 datesList.append(tomorrow)
-
+'''
 dates = soup.find_all('span', {'class': 'wr-date__longish'})
 
 for date in dates:
